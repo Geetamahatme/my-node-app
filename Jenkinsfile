@@ -11,12 +11,6 @@ pipeline {
                 sh 'npm install'
             }
         }
-        stage('Build') {
-            steps {
-                // Add your build commands here, if any
-                sh 'npm run build' // Adjust this command based on your project structure
-            }
-        }
         stage('Run Application') {
             steps {
                 // Command to run your application
