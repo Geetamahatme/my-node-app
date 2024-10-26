@@ -1,13 +1,9 @@
 pipeline {
     agent any
-    tools {
-        nodejs 'NodeJS'  // Make sure this matches the name you configured for NodeJS
-        maven 'Maven'    // Ensure this matches the name you gave Maven in the Jenkins settings
-    }
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/Geetamahatme/my-node-app.git', branch: 'main'
+                checkout scm
             }
         }
         stage('Install Dependencies') {
@@ -15,26 +11,25 @@ pipeline {
                 sh 'npm install'
             }
         }
-        stage('Build with Maven') {
+        stage('Build') {
             steps {
-                sh 'mvn clean package'
+                // Add your build commands here, if any
+                sh 'npm run build' // Adjust this command based on your project structure
             }
         }
-        stage('Run Selenium Tests') {
+        stage('Run Application') {
             steps {
-                sh 'mvn test -Dtest=YourSeleniumTestClass'
+                // Command to run your application
+                sh 'npm start' // or whatever command you use to run your app
             }
         }
     }
     post {
-        success {
-            echo 'Build and tests were successful!'
+        always {
+            echo 'Cleaning up...'
         }
         failure {
             echo 'Build or tests failed!'
-        }
-        always {
-            echo 'Cleaning up...'
         }
     }
 }
